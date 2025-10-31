@@ -1,26 +1,41 @@
 <DOCTYPE html>
-<html>
-<link href="style.css" rel="stylesheet" type="text/css">
-<body>
-<h2>Hayden Lasher's Website</h2>
-<p>Let me introduce you to... The Kei Truck!</p>
-
-<div id="one">
-<h3> One of the single greatest automotive inventions (in my humble opinion) still used around the world to this day. </h3>
-</div>
-
-<div id="two">
-<h3> Created as a practical and affordable utility vehicle, in Japan's post-war economy for farmers and businesses, the Kei Truck became a cultural icon. Because of its simple design, large array of aftermarket customizations, and lower requirement for mechanical aptitude, it has led to tens of thousands of unique Kei trucks throughout the world and a huge rise in popularity.</h3>
-</div>
-
-<a href="https://en.wikipedia.org/wiki/Kei_truck">Kei Truck</a>
-
+<html lang="en">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Hayden Lasher - Kei Truck</title>
+  <link href="style.css" rel="stylesheet" type="text/css">
+</head>
+<body id="top">
+  <!--Global header and nav (Same on all pages)-->
+  <header class="site-header">
+  <h1>Hayden Lasher's Website</h1>
+  <nav aria-label="Main">
+    <u1 class="nav">
+      <li><a class="active" href="index.html">Home</a></li>
+      <li><a href="gallery.html">Gallery (2-3 Columns)</a></li>
+      <li><a href="about.html">About</a></li>
+      <!--External link opens in a NEW TAB-->
+      <li>
+<a href="https://en.wikipedia.org/wiki/Kei_truck"
+   target="_blank" rel="nonopener noreferrer"></a></li></u1></nav></header>
+<main class="container">
+  <p class="lead">Let me introduce to you... The Kei Truck!</p>
+<section class="card" id="one">
+  <h2 id="specs">Practical, Affordable, Iconic</h2>
+  <p>Born in Japan's post-war economy for farmers and small businesses, Kei Trucks are compact, customizable, and rediculously useful.</p>
+  <!--Placeholder link to a section on this same page-->
+  <p><a class="placeholder" href="#specs">Jump to the specs headline (placeholder link)</a></p>
+  </section>
+  <!--Scalable image row-->
   <div class="image-row">
-    <img src="Kei-Truck2.jpg" alt="Left Truck">
-    <img src="Kei-Truck.jpg" alt="Center Truck">
-    <img src="Kei-Truck3.jpg" alt="Right Truck">
+    <img src="Kei-Truck2.jpg" alt="Lifted Kei truck on a beach" />
+    <img src="Kei-Truck.jpg" alt="Classic white Honda Acty Kei truck" />
+    <img src="Kei-Truck3.jpg" alt="Pink show Kei trucdk" />
   </div>
-  <footer>
+  <p class="top-link"><a href="#top">Back to top</a>></p>
+  </main>
+  <footer class="site-footer">
     <p>&copy; 2025 Hayden Lasher - Kei Truck Website </p>
   </footer>
 </body>
