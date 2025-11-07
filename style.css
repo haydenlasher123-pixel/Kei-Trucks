@@ -94,7 +94,7 @@ body {font-family: Arial, sans-serif;}
     font-size: clamp(0.75rem, 2.2vw, 0.95rem);}}
   /* --- Specific scaling for Fire Engine image --- */
 img[src="Kei-Truck-Fire.jpg"] {
-  scale: 0.8;
+  scale: 0.5;
   object-fit: contain;
   display: block;
   margin: 0 auto;
