@@ -92,21 +92,24 @@ body {font-family: Arial, sans-serif;}
   .nav a {
     padding: 0.4rem 0.75rem;
     font-size: clamp(0.75rem, 2.2vw, 0.95rem);}}}
-
-    /* --- Gallery grid layout --- */
 .grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 1rem;
+  gap: 1.25rem;
   justify-items: center;
   padding: 1rem;
 }
+/* --- Gallery images: keep original proportions but limit size --- */
 .grid img {
-  display: block;
   width: 100%;
-  height: 250px;
-  object-fit: contain;
-  max-width: 100%;
-  background-color: #fff;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
   border-radius: 0.5rem;
+  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+}
+/* --- Keep captions centered --- */
+.grid figure {
+  text-align: center;
+  max-width: 400px;
 }
