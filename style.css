@@ -100,7 +100,7 @@ body {font-family: Arial, sans-serif;}
   padding: 1rem 0;
 }
 .grid figure {
-  width: min(95vw, 1400px);
+  width: min(95vw, 1000px);
   margin-bottom: 2rem;
   text-align: center;
   background: white;
