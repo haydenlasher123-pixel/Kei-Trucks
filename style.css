@@ -97,11 +97,10 @@ body {font-family: Arial, sans-serif;}
   flex-direction: column;
   align-items: center;
   gap: 2rem
-  padding: 1rem 6vw;
+  padding: 1rem 0;
 }
 .grid figure {
-  width: 100%;
-  max-width: 2000px;
+  width: min(95vw, 1400px);
   margin-bottom: 2rem;
   text-align: center;
   background: white;
@@ -114,9 +113,4 @@ body {font-family: Arial, sans-serif;}
   height: auto;
   display: block;
   border-bottom: 1px solid #ddd;
-}
-/* --- Keep captions centered --- */
-.grid figure {
-  text-align: center;
-  max-width: 400px;
 }
