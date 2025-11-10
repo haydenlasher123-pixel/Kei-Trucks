@@ -94,16 +94,18 @@ body {font-family: Arial, sans-serif;}
     font-size: clamp(0.75rem, 2.2vw, 0.95rem);}}}
 .grid {
   column-count: 1;          /* number of columns on desktop */
-  column-gap: 1.25rem;
-  padding: 1rem;
+  column-gap: 2rem;
+  padding: 1rem 10vw;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 .grid figure {
   break-inside: avoid;
-  margin-bottom: 1.25rem;
+  margin-bottom: 2rem;
   text-align: center;
   background: white;
-  border-radius: 0.5rem;
-  box-shadow: 0 0 8px rgba(0, 0, 0, 0.2);
+  border-radius: 0.75rem;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
 }
 .grid img {
