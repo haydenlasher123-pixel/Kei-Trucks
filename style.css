@@ -93,26 +93,33 @@ body {font-family: Arial, sans-serif;}
     padding: 0.4rem 0.75rem;
     font-size: clamp(0.75rem, 2.2vw, 0.95rem);}}}
 .grid {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 2rem
-  padding: 1rem 0;
+  padding: 2rem 0;
 }
 .grid figure {
-  width: min(95vw, 1000px);
-  margin-bottom: 2rem;
-  text-align: center;
   background: white;
   border-radius: 0.75rem;
   box-shadow: 0 0 12px rgba(0, 0, 0, 0.25);
   overflow: hidden;
+  text-align: center;
 }
 .grid img {
   width: 100%;
   height: auto;
   display: block;
   border-bottom: 1px solid #ddd;
+}
+@media (max-width: 64em) {
+  .grid{
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+@media (max-width: 40em) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
 }
 /* --- About page styling --- */
 .about-section {
@@ -124,20 +131,17 @@ body {font-family: Arial, sans-serif;}
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
   text-align: center;
 }
-
 .about-section h2 {
   color: darkgreen;
   margin-top: 1.5rem;
   margin-bottom: 0.75rem;
 }
-
 .about-section p {
   color: #333;
   line-height: 1.6;
   margin-bottom: 1rem;
   text-align: left;
 }
-
 /* --- Profile picture --- */
 .profile-pic {
   width: 200px;
