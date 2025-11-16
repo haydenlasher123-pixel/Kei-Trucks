@@ -107,7 +107,8 @@ body {font-family: Arial, sans-serif;}
 }
 .grid img {
   width: 100%;
-  height: auto;
+  aspect-ratio: 4 / 3; /*All images same shape */
+  object-fit: cover; /*Fills the text box by cropping, not warping. */
   display: block;
   border-bottom: 1px solid #ddd;
 }
