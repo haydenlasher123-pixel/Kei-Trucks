@@ -259,10 +259,10 @@ body {font-family: "Poppins", Arial, sans-serif;}
     font-weight: 700;
 }
 .kei-table tbody tr:nth-child(odd) {
-    background: rgba(255, 255, 255, 0.22);
+    background: #fce7b2;
 }
 .kei-table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.10);
+    background: #fffd3f;
 }
 .kei-table td {
     border: 1px solid rgba(0,0,0,0.2);
