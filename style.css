@@ -255,7 +255,7 @@ body {font-family: "Poppins", Arial, sans-serif;}
 }
 .kei-table th {
     background: rgba(0, 60, 0, 0.25);
-    color: #0f3d0f;
+    color: #fffacd;
     font-weight: 700;
 }
 .kei-table tbody tr:nth-child(even) {
