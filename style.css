@@ -122,6 +122,26 @@ body {font-family: "Poppins", Arial, sans-serif;}
     grid-template-columns: 1fr;
   }
 }
+/* --- Kei Truck table styling --- */
+.kei-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5rem 0;
+  font-size: 0.95rem;
+}
+.kei-table caption {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.kei-table th,
+.kei-table td {
+  border: 1px solid #333;
+  padding: 0.5rem;
+  text-align: left;
+}
+.kei-table thead {
+  background-color: rgba(0, 0, 0, 0.08);
+}
 /* --- About page styling --- */
 .about-section {
   max-width: 900px;
