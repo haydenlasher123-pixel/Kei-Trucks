@@ -34,7 +34,7 @@ a:hover {color: firebrick;
 	font-weight: bold;
 	text-decoration: underline;
 	text-shadow: 0 0 0.3rem lightgreen;}
-body {font-family: Arial, sans-serif;}
+body {font-family: "Poppins", Arial, sans-serif;}
 @keyframes fadeIn{
 	from {opacity: 0;}
 	to{opacity: 1;}}
