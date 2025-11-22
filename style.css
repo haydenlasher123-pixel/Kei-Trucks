@@ -279,13 +279,13 @@ body {font-family: "Poppins", Arial, sans-serif;}
 /* --- text color hierarchy for Guide page --- */
 /* Big titles (h1, h2) */
 h1, h2 {
-    color: #004d00;
+    color: #013220;
 }
 /* Medium headers (h3, h4) */
 h3, h4 {
-    color: #0a7a0a;
+    color: #0d7a47;
 }
 /* All small text (paragraphs etc.) */
 p, li, span, .guide-subtext {
-    color: #124f12;
+    color: #203a24;
 }
