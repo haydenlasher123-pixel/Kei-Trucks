@@ -277,15 +277,21 @@ body {font-family: "Poppins", Arial, sans-serif;}
     box-shadow: 0 0 25px rgba(0,0,0,0.35);
 }
 /* --- text color hierarchy for Guide page --- */
-/* Big titles (h1, h2) */
+.guide-tagline {
+    color: #005c2e;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+}
+/* Big section titles (h1, h2) */
 h1, h2 {
-    color: #013220;
+    color: #007a33;
 }
-/* Medium headers (h3, h4) */
+/* Medium headers (h3, h4) — matches h2*/
 h3, h4 {
-    color: #0d7a47;
+    color: #007a33;  /* same as h1/h2 */
 }
-/* All small text (paragraphs etc.) */
+/* Small body text — lighter & cleaner */
 p, li, span, .guide-subtext {
-    color: #203a24;
-}
+    color: #225c37;}
