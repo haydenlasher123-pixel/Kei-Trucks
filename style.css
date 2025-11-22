@@ -172,3 +172,72 @@ body {font-family: "Poppins", Arial, sans-serif;}
   margin-bottom: 1rem;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
+/* --- Guide page layout --- */
+.guide-layout {
+  max-width: 70rem;
+  margin: 0 auto 2rem;
+}
+/* Big intro card on Guide page */
+.guide-hero {
+  background: rgba(255, 255, 255, 0.15);
+  border-radius: 1rem;
+  padding: 2rem;
+  margin: 2rem auto;
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+}
+.guide-tagline {
+  font-weight: 600;
+  letter-spacing: 0.03em;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+.guide-hero h2 {
+  color: darkgreen;
+  margin-bottom: 1rem;
+}
+/* Table card */
+.guide-table-section {
+  margin: 1.5rem auto 2rem;
+  padding: 2rem;
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  box-shadow: 0 0 18px rgba(0, 0, 0, 0.25);
+}
+.guide-table-section h2 {
+  margin-bottom: 0.75rem;
+}
+.guide-subtext {
+  margin-bottom: 1rem;
+}
+/* Table wrapper so it scrolls nicely on phones */
+.kei-table-wrapper {
+  width: 100%;
+  overflow-x: auto;
+}
+/* --- Kei truck comparison table --- */
+.kei-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 0.75rem 0 1rem;
+  font-size: 0.95rem;
+}
+.kei-table caption {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+.kei-table th,
+.kei-table td {
+  border: 1px solid #333;
+  padding: 0.6rem 0.5rem;
+  text-align: left;
+}
+.kei-table thead {
+  background-color: rgba(0, 0, 0, 0.12);
+}
+.kei-table tbody tr:nth-child(even) {
+  background-color: rgba(255, 255, 255, 0.08);
+}
+.guide-footnote {
+  margin-top: 0.75rem;
+  font-size: 0.95rem;
+}
