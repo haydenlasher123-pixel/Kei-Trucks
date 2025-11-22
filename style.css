@@ -276,3 +276,16 @@ body {font-family: "Poppins", Arial, sans-serif;}
     border-radius: 10px;
     box-shadow: 0 0 25px rgba(0,0,0,0.35);
 }
+/* --- text color hierarchy for Guide page --- */
+/* Big titles (h1, h2) */
+h1, h2 {
+    color: #004d00;
+}
+/* Medium headers (h3, h4) */
+h3, h4 {
+    color: #0a7a0a;
+}
+/* All small text (paragraphs etc.) */
+p, li, span, .guide-subtext {
+    color: #124f12;
+}
