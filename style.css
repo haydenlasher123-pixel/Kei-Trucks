@@ -126,7 +126,7 @@ body {font-family: Arial, sans-serif;}
 .about-section {
   max-width: 900px;
   margin: 2rem auto;
-  background: white;
+  background: #f9f5e9; /*--off white color--*/
   padding: 2rem;
   border-radius: 1rem;
   box-shadow: 0 0 15px rgba(0, 0, 0, 0.25);
