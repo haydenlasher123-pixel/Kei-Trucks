@@ -220,6 +220,9 @@ body {font-family: "Poppins", Arial, sans-serif;}
   border-collapse: collapse;
   margin: 0.75rem 0 1rem;
   font-size: 0.95rem;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    overflow: hidden;
 }
 .kei-table caption {
   font-weight: 600;
@@ -232,10 +235,13 @@ body {font-family: "Poppins", Arial, sans-serif;}
   text-align: left;
 }
 .kei-table thead {
-  background-color: rgba(0, 0, 0, 0.12);
+  background-color: #2e7d32;
+  color: white;
 }
+.kei-table tbody tr:nth-child(odd) {
+  background-color: rgba(255, 255, 255, 0.30);}
 .kei-table tbody tr:nth-child(even) {
-  background-color: rgba(255, 255, 255, 0.08);
+  background-color: rgba(255, 255, 255, 0.15);
 }
 .guide-footnote {
   margin-top: 0.75rem;
