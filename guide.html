@@ -11,11 +11,15 @@
   <!-- Font Awesome -->
   <link rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <!-- CSS -->
   <link rel="stylesheet" href="style.css" />
 </head>
 <body id="top">
   <header class="site-header">
-    <h1><i class="fa-solid fa-truck-pickup" aria-hidden="true"></i> Kei Truck Buying Guide</h1>
+    <h1>
+      <i class="fa-solid fa-map-signs" aria-hidden="true"></i>
+      Kei Truck Buying Guide
+    </h1>
     <nav aria-label="Main">
       <ul class="nav">
         <li><a href="index.html">Home</a></li>
@@ -25,72 +29,86 @@
         <li>
           <a href="https://en.wikipedia.org/wiki/Kei_truck"
              target="_blank" rel="noopener noreferrer">
-            What is a Kei Truck?
-          </a>
-        </li>
-      </ul>
-    </nav>
-  </header>
-  <main class="container">
-    <section class="card" id="guide-intro">
-      <h2>Thinking about a Kei Truck?</h2>
-      <p>
-        Kei trucks look tiny and cute, but they are real workhorses. Before you
-        import one or buy one locally, it helps to know how you plan to use it
-        and what kind of setup fits your life.
-      </p>
-      <p>
-        Below is a quick guide to common Kei truck setups, what they are good at,
-        and what to watch out for.
-      </p>
-    </section>
-    <section class="card" id="guide-table">
+            What is a Kei Truck?</a></li></ul></nav></header>
+  <main class="container guide-layout">
+    <!-- Hero card -->
+    <section class="card guide-hero">
+      <p class="guide-tagline">Thinking about a Kei truck?</p>
+      <h2>Pick the truck that matches how you’ll actually use it</h2>
+      <p>Kei trucks look tiny and cute, but they are real workhorses. Before you import one
+        or buy one locally, it helps to know how you plan to use it and what kind of setup
+        fits your life.</p>
+      <p>This page gives a quick overview of some popular Kei truck models and the types of
+        builds they are usually used for.</p></section>
+    <!-- Table section -->
+    <section class="card guide-table-section">
       <h2>Example Kei Truck Setups</h2>
-      <table class="kei-table">
-        <caption>Kei Truck Builds and Their Strengths</caption>
-        <thead>
-          <tr>
-            <th>Setup</th>
-            <th>Drive</th>
-            <th>Main Use</th>
-            <th>Pros</th>
-            <th>Things to Consider</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Stock farm truck</td>
-            <td>4WD</td>
-            <td>Hauling tools, feed, and lumber</td>
-            <td>Simple, reliable, good fuel mileage</td>
-            <td>Lower ground clearance, not great for deep ruts</td>
-          </tr>
-          <tr>
-            <td>Lifted off-road build</td>
-            <td>4WD</td>
-            <td>Trails, camping, hunting trips</td>
-            <td>More clearance, fun on forest roads</td>
-            <td>Harsher ride on pavement, tires wear faster</td>
-          </tr>
-          <tr>
-            <td>Street style mini-truck</td>
-            <td>RWD</td>
-            <td>Shows, cars and coffee, cruising</td>
-            <td>Super unique, easy to park in cities</td>
-            <td>Low ride height can scrape on speed bumps</td>
-          </tr>
-          <tr>
-            <td>Work topper with racks</td>
-            <td>4WD</td>
-            <td>Contractor, handyman, mobile shop</td>
-            <td>Lockable storage and ladder racks</td>
-            <td>Extra weight, slightly lower fuel mileage</td>
-          </tr>
-        </tbody>
-      </table>
-      <p>
-        No matter which setup you choose, always check your state or local laws
-        for on-road use, and get a pre-purchase inspection if you can.
+      <p class="guide-subtext">
+        These are just example builds to get ideas going. A lot of Kei trucks can be used
+        in more than one way.</p>
+      <div class="kei-table-wrapper">
+        <table class="kei-table">
+          <caption>Real Kei Truck Models and Common Uses</caption>
+          <thead>
+            <tr>
+              <th>Model</th>
+              <th>Drive</th>
+              <th>Best For</th>
+              <th>Pros</th>
+              <th>Things to Consider</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Honda Acty 4WD (farm style)</td>
+              <td>4WD</td>
+              <td>Small farm work, acreage, hauling tools and feed</td>
+              <td>
+                Simple and reliable, flat bed is easy to load, good fuel mileage for daily chores
+              </td>
+              <td>
+                Most Actys are older now, so check for rust and plan on slower highway speeds
+              </td>
+            </tr>
+            <tr>
+              <td>Suzuki Carry DA63T (lifted build)</td>
+              <td>4WD</td>
+              <td>Trails, camping trips, mild off road exploring</td>
+              <td>
+                Popular platform for lift kits and bigger tires, tons of parts and aftermarket support
+              </td>
+              <td>
+                Lifted trucks ride stiffer on pavement and aggressive tires are louder and wear faster
+              </td>
+            </tr>
+            <tr>
+              <td>Daihatsu Hijet (street mini truck)</td>
+              <td>RWD / 4WD</td>
+              <td>Street builds, cars and coffee, cruising around town</td>
+              <td>
+                Great for lowered “mini truck” style builds, tons of character, easy to park anywhere
+              </td>
+              <td>
+                Lowered trucks have less ground clearance and can scrape on speed bumps and driveways
+              </td>
+            </tr>
+            <tr>
+              <td>Subaru Sambar (topper + racks)</td>
+              <td>4WD</td>
+              <td>Light contractor work, handyman setup, mobile tool hauler</td>
+              <td>
+                Works well with toppers and roof racks, enclosed bed keeps tools out of the weather
+              </td>
+              <td>
+                Added topper and racks add weight, so expect slightly less fuel mileage and performance
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="guide-footnote">
+        No matter which model you like, double check your state or local laws for on road use,
+        and try to get a pre purchase inspection before you buy.
       </p>
     </section>
     <p class="top-link"><a href="#top">Back to top</a></p>
