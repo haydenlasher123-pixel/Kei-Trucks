@@ -254,12 +254,15 @@ body {font-family: "Poppins", Arial, sans-serif;}
     box-shadow: 0 0 20px rgba(0,0,0,0.25);
 }
 .kei-table th {
-    background: rgba(0, 60, 0, 0.25);
+    background: #0f3d0f;
     color: #fffacd;
     font-weight: 700;
 }
+.kei-table tbody tr:nth-child(odd) {
+    background: rgba(255, 255, 255, 0.22);
+}
 .kei-table tbody tr:nth-child(even) {
-    background: rgba(255, 255, 255, 0.15);
+    background: rgba(255, 255, 255, 0.10);
 }
 .kei-table td {
     border: 1px solid rgba(0,0,0,0.2);
