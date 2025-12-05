@@ -89,13 +89,17 @@ body {font-family: "Poppins", Arial, sans-serif;}
   /* Compact nav on small screens */
 @media (max-width: 40em) {
   .nav {
-    gap: 0.5rem;
-    flex-wrap: wrap;
-  }
-   .nav a {
-    padding: 0.4rem 0.75rem;
-    font-size: clamp(0.75rem, 2.2vw, 0.95rem);
-  }}}
+    flex-direction: column;   /* stack buttons */
+    align-items: stretch;     /* each button full width */
+    gap: 0.5rem;}
+  .nav li {
+    width: 100%;}
+  .nav a {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 0.6rem 0.75rem;
+    font-size: 0.9rem;}}}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
