@@ -2,6 +2,7 @@
 .nav {
   display: flex;
   justify-content: center;
+  align-items: center;     /* new: keeps all buttons aligned */
   list-style: none;
   padding: 0;
   margin: 1rem 0;
@@ -89,10 +90,12 @@ body {font-family: "Poppins", Arial, sans-serif;}
 @media (max-width: 40em) {
   .nav {
     gap: 0.5rem;
+    flex-wrap: wrap;
   }
   .nav a {
-    padding: 0.4rem 0.75rem;
-    font-size: clamp(0.75rem, 2.2vw, 0.95rem);}}}
+    padding: 0.35rem 0.7rem;
+    font-size: 0.85rem;
+    text-align: center;}}}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
