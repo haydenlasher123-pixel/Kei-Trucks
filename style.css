@@ -26,6 +26,14 @@
   background-color: firebrick;
   color: white;
 }
+/* Center the entire header title */
+.site-header {
+  text-align: center;
+}
+/* Keep the truck icons + text grouped together */
+.site-header h1 {
+  display: inline-block;
+}
 body{background-color: orange;}
 h2{text-align: center;
 	color: darkgreen;}
