@@ -92,10 +92,10 @@ body {font-family: "Poppins", Arial, sans-serif;}
     gap: 0.5rem;
     flex-wrap: wrap;
   }
-  .nav a {
-    padding: 0.35rem 0.7rem;
-    font-size: 0.85rem;
-    text-align: center;}}}
+   .nav a {
+    padding: 0.4rem 0.75rem;
+    font-size: clamp(0.75rem, 2.2vw, 0.95rem);
+  }}}
 .grid {
   display: grid;
   grid-template-columns: repeat(3, minmax(0, 1fr));
