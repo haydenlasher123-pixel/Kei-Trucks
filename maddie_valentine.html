@@ -1,0 +1,584 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Maddie's Valentine Adventure</title>
+  <style>
+    :root{
+      --bg1:#0b0b10; --bg2:#1a1026;
+      --card:rgba(255,255,255,.08); --card2:rgba(255,255,255,.12);
+      --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.72);
+      --accent:#ff4d6d; --accent2:#ff9bd1; --shadow:0 20px 60px rgba(0,0,0,.45);
+      --radius:18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      min-height:100vh;
+      background:
+        radial-gradient(1200px 700px at 20% 10%, #3a145a 0%, transparent 60%),
+        radial-gradient(900px 600px at 80% 30%, #5a1234 0%, transparent 60%),
+        linear-gradient(160deg,var(--bg1),var(--bg2));
+      display:flex; align-items:center; justify-content:center;
+      padding:18px;
+    }
+    .wrap{width:100%; max-width:760px}
+    .card{
+      background:linear-gradient(180deg,var(--card),rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:var(--radius);
+      box-shadow:var(--shadow);
+      overflow:hidden;
+    }
+    header{
+      padding:18px 18px 0 18px;
+      display:flex; align-items:center; justify-content:space-between;
+      gap:12px; flex-wrap:wrap;
+    }
+    .title{display:flex; flex-direction:column; gap:4px}
+    .title h1{margin:0; font-size:clamp(20px,4.5vw,32px); letter-spacing:.2px}
+    .title p{margin:0; color:var(--muted); font-size:clamp(13px,3.2vw,15px)}
+    .pillrow{display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+    .pill{
+      padding:8px 10px; border-radius:999px;
+      background:rgba(255,255,255,.08);
+      border:1px solid rgba(255,255,255,.14);
+      font-size:12px; color:var(--muted); user-select:none;
+    }
+    main{padding:18px}
+    .scene{
+      background:linear-gradient(180deg,var(--card2),rgba(255,255,255,.05));
+      border:1px solid rgba(255,255,255,.14);
+      border-radius:var(--radius);
+      padding:16px;
+      animation:fadeIn 240ms ease-out;
+    }
+    .scene h2{margin:0 0 10px 0; font-size:clamp(18px,4.2vw,24px)}
+    .scene .text{
+      margin:0 0 14px 0;
+      color:var(--text);
+      line-height:1.45;
+      font-size:clamp(15px,3.8vw,18px);
+      white-space:pre-wrap;
+    }
+    .choices{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:10px;
+      margin-top:14px;
+    }
+    button.choice{
+      width:100%;
+      padding:14px 14px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.08);
+      color:var(--text);
+      font-size:16px;
+      text-align:left;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+    button.choice:active{transform:scale(.99); background:rgba(255,255,255,.12)}
+    .row{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap}
+    .smallbtn{
+      flex:1; min-width:130px;
+      padding:12px 12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.18);
+      background:rgba(255,255,255,.06);
+      color:var(--muted);
+      font-size:14px;
+      cursor:pointer;
+      touch-action:manipulation;
+      -webkit-tap-highlight-color:transparent;
+    }
+    .smallbtn:active{transform:scale(.99)}
+    .accent{
+      color:white;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      border:none;
+    }
+    footer{padding:14px 18px 18px 18px; color:var(--muted); font-size:12px}
+    @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="card">
+      <header>
+        <div class="title">
+          <h1 id="gameTitle">Maddie's Valentine Adventure</h1>
+          <p id="gameSubtitle">a tiny choose-your-own-adventure</p>
+        </div>
+        <div class="pillrow">
+          <div class="pill" id="pillProgress">scene 1</div>
+          <div class="pill" id="pillHearts">❤ 0</div>
+        </div>
+      </header>
+
+      <main>
+        <div class="scene">
+          <h2 id="sceneTitle"></h2>
+          <p class="text" id="sceneText"></p>
+          <div class="choices" id="choices"></div>
+
+          <div class="row">
+            <button class="smallbtn" id="backBtn">back</button>
+            <button class="smallbtn" id="restartBtn">restart</button>
+            <button class="smallbtn accent" id="secretBtn" title="shh">secret</button>
+          </div>
+        </div>
+      </main>
+
+      <footer id="footerNote">
+        tip: if you ever see a secret code, try the secret button
+      </footer>
+    </div>
+  </div>
+
+  <script>
+    const CONFIG = {
+      herName: "Maddie",
+      yourName: "Hayden"
+    };
+
+    let hearts = 0;
+    let currentId = "start";
+    const history = [];
+    const endings = ["endingA", "endingB", "endingC", "endingD"];
+
+    const scenes = {
+      start: {
+        title: `Hi ${CONFIG.herName} ❤`,
+        text:
+`Welcome to your Valentine adventure.
+
+Rules:
+1) tap choices
+2) collect hearts
+3) no one gets put in an armbar without consent
+
+Ready?`,
+        choices: [
+          { label: "ok yes, let's go", to: "hub", heart: 1 },
+          { label: "wait... is this a trap", to: "trap", heart: 0 }
+        ]
+      },
+
+      trap: {
+        title: "Totally not a trap",
+        text:
+`It is not a trap.
+
+It is a love trap.
+Same thing, but cuter.
+
+Proceed?`,
+        choices: [
+          { label: "proceed", to: "hub", heart: 1 },
+          { label: "only if ramen is involved", to: "ramen", heart: 2 }
+        ]
+      },
+
+      hub: {
+        title: "Pick your route",
+        text:
+`You receive a text from ${CONFIG.yourName}:
+"Valentine mission time."
+
+Choose your vibe:`,
+        choices: [
+          { label: "ramen quest (cozy)", to: "ramen", heart: 2 },
+          { label: "wrestling/BJJ shenanigans (chaos)", to: "bjj", heart: 1 },
+          { label: "the legendary gas station porta potty saga", to: "potty", heart: 1 }
+        ]
+      },
+
+      ramen: {
+        title: "Ramen Quest",
+        text:
+`A warm bowl of ramen appears like magic.
+The steam smells like comfort.
+
+${CONFIG.yourName} says:
+"Pick your toppings and your destiny."`,
+        choices: [
+          { label: "go full cozy date mode", to: "cozy", heart: 2 },
+          { label: "make it a ramen taste-test challenge", to: "challenge", heart: 2 },
+          { label: "take a cute selfie first", to: "selfie", heart: 1 }
+        ]
+      },
+
+      bjj: {
+        title: "Wrestling/BJJ Shenanigans",
+        text:
+`${CONFIG.yourName} walks up with that look.
+You know the one.
+The "I am about to practice a move" look.
+
+You have 3 options.`,
+        choices: [
+          { label: "pretend I am a serious coach and give you a score", to: "coach", heart: 2 },
+          { label: "counter it with pure chaos and laughter", to: "counter", heart: 2 },
+          { label: "negotiate: 'only if I get ramen after'", to: "deal", heart: 2 }
+        ]
+      },
+
+      potty: {
+        title: "The Porta Potty Saga",
+        text:
+`Flashback unlocked.
+
+The urgency was real.
+The stakes were high.
+You yelled:
+"I'm gonna poop in your car!"
+
+And then... a gas station.
+A porta potty.
+Victory.
+
+How do we honor this heroic moment?`,
+        choices: [
+          { label: "laugh until we cry (again)", to: "laugh", heart: 2 },
+          { label: "turn it into a dramatic movie scene", to: "movie", heart: 2 },
+          { label: "make a vow: 'never skip bathroom breaks'", to: "vow", heart: 1 }
+        ]
+      },
+
+      cozy: {
+        title: "Cozy Mode",
+        text:
+`You settle into the coziest possible moment.
+No stress.
+Just you two.
+
+${CONFIG.yourName} slides a tiny envelope across the table.
+It says: "open later."`,
+        choices: [
+          { label: "open it right now", to: "noteNow", heart: 2 },
+          { label: "save it for the perfect moment", to: "noteLater", heart: 2 }
+        ]
+      },
+
+      challenge: {
+        title: "Ramen Challenge",
+        text:
+`You rate each bite with extreme seriousness.
+Like food critics, but way cuter.
+
+${CONFIG.yourName} attempts to be dramatic:
+"This next bite decides your fate."`,
+        choices: [
+          { label: "accept the drama", to: "noteNow", heart: 2 },
+          { label: "no, the ramen decides nothing. I do.", to: "endingB", heart: 3 }
+        ]
+      },
+
+      selfie: {
+        title: "Selfie Moment",
+        text:
+`You take a selfie.
+It is instantly adorable.
+No one can prove otherwise.
+
+A secret message appears on your screen:
+CODE: RAMENLOVE
+
+Maybe that matters later.`,
+        choices: [
+          { label: "continue the adventure", to: "noteLater", heart: 2 }
+        ]
+      },
+
+      coach: {
+        title: "Coach Maddie",
+        text:
+`You allow exactly one move attempt.
+You evaluate like a judge.
+
+Scorecard:
+Technique: suspicious.
+Effort: enthusiastic.
+Vibes: elite.
+
+${CONFIG.yourName} bows respectfully.`,
+        choices: [
+          { label: "award bonus points for being cute", to: "endingA", heart: 3 },
+          { label: "demand ramen as payment", to: "endingB", heart: 2 }
+        ]
+      },
+
+      counter: {
+        title: "Chaos Counter",
+        text:
+`You counter with laughter and a perfectly timed wiggle escape.
+It works.
+Every time.
+
+${CONFIG.yourName} says:
+"How are you like this."`,
+        choices: [
+          { label: "mysteriously vanish into cozy mode", to: "cozy", heart: 2 },
+          { label: "go straight to an ending because I'm powerful", to: "endingC", heart: 2 }
+        ]
+      },
+
+      deal: {
+        title: "The Deal",
+        text:
+`You negotiate like a champion:
+"Fine. Practice your move. But ramen after."
+
+${CONFIG.yourName} agrees immediately.
+Smart choice.`,
+        choices: [
+          { label: "seal it with a high five", to: "endingD", heart: 2 },
+          { label: "seal it with ramen first (priorities)", to: "ramen", heart: 1 }
+        ]
+      },
+
+      laugh: {
+        title: "Laugh Route",
+        text:
+`You laugh so hard you forget the whole world exists for a minute.
+That is the best kind of moment.
+
+${CONFIG.yourName} looks at you like:
+"yep. that's my person."`,
+        choices: [
+          { label: "go to an ending", to: "endingC", heart: 2 },
+          { label: "take the scenic route to an ending", to: "noteLater", heart: 1 }
+        ]
+      },
+
+      movie: {
+        title: "Movie Trailer Voice",
+        text:
+`In a world...
+where bathrooms are NOT optional...
+one woman fights fate itself...
+
+"I'm gonna poop in your car!"
+
+Coming soon: The Porta Potty Chronicles.`,
+        choices: [
+          { label: "this deserves an ending", to: "endingA", heart: 2 },
+          { label: "this deserves ramen", to: "ramen", heart: 1 }
+        ]
+      },
+
+      vow: {
+        title: "The Vow",
+        text:
+`You make a solemn vow:
+We stop when you say you need to stop.
+
+Also, we celebrate small victories.
+Like making it to the porta potty.`,
+        choices: [
+          { label: "continue", to: "noteNow", heart: 2 }
+        ]
+      },
+
+      noteNow: {
+        title: "The Note",
+        text:
+`You open the note.
+
+Inside it says:
+"Choose an ending.
+You will get a sweet message no matter what.
+Because you are you."
+
+Pick one:`,
+        choices: [
+          { label: "Ending A", to: "endingA", heart: 1 },
+          { label: "Ending B", to: "endingB", heart: 1 },
+          { label: "Ending C", to: "endingC", heart: 1 },
+          { label: "Ending D", to: "endingD", heart: 1 }
+        ]
+      },
+
+      noteLater: {
+        title: "Later, Perfectly",
+        text:
+`You save the note for the perfect moment.
+The perfect moment shows up immediately.
+Because of course it does.
+
+Pick an ending:`,
+        choices: [
+          { label: "Ending A", to: "endingA", heart: 1 },
+          { label: "Ending B", to: "endingB", heart: 1 },
+          { label: "Ending C", to: "endingC", heart: 1 },
+          { label: "Ending D", to: "endingD", heart: 1 }
+        ]
+      },
+
+      endingA: {
+        title: "Ending A: Cozy Best Friends",
+        text:
+`Hearts collected: {HEARTS}
+
+Happy Valentine’s Day, Maddie.
+
+You are my best friend, and you are the most important thing in the world to me.
+I love you for the big moments, the normal moments, and the ridiculous moments.
+Yes, even the porta potty saga.
+
+I choose you. Always.`,
+        choices: [
+          { label: "play again and find another ending", to: "hub", heart: 0 }
+        ]
+      },
+
+      endingB: {
+        title: "Ending B: Ramen and Real Love",
+        text:
+`Hearts collected: {HEARTS}
+
+Happy Valentine’s Day, Maddie.
+
+You are my best friend, and you are the most important thing in the world to me.
+I love you more than ramen, which is saying something.
+Thank you for being you, and for letting life be fun with me.
+
+I love you.`,
+        choices: [
+          { label: "play again and find another ending", to: "hub", heart: 0 }
+        ]
+      },
+
+      endingC: {
+        title: "Ending C: Laugh-til-it-hurts",
+        text:
+`Hearts collected: {HEARTS}
+
+Happy Valentine’s Day, Maddie.
+
+You are my best friend, and you are the most important thing in the world to me.
+I love how we can laugh through anything.
+I love your energy, your heart, your humor, and your whole vibe.
+
+I’m so lucky it’s you.`,
+        choices: [
+          { label: "play again and find another ending", to: "hub", heart: 0 }
+        ]
+      },
+
+      endingD: {
+        title: "Ending D: The Chaos Soulmate",
+        text:
+`Hearts collected: {HEARTS}
+
+Happy Valentine’s Day, Maddie.
+
+You are my best friend, and you are the most important thing in the world to me.
+I love our little life together.
+The sweet parts, the weird parts, the "I’m gonna poop in your car!" parts.
+All of it.
+
+I love you more than you know.`,
+        choices: [
+          { label: "play again and find another ending", to: "hub", heart: 0 }
+        ]
+      }
+    };
+
+    const elSceneTitle = document.getElementById("sceneTitle");
+    const elSceneText = document.getElementById("sceneText");
+    const elChoices = document.getElementById("choices");
+    const elProgress = document.getElementById("pillProgress");
+    const elHearts = document.getElementById("pillHearts");
+    const backBtn = document.getElementById("backBtn");
+    const restartBtn = document.getElementById("restartBtn");
+    const secretBtn = document.getElementById("secretBtn");
+
+    function render(){
+      const scene = scenes[currentId];
+      if(!scene) return;
+
+      document.getElementById("gameTitle").textContent = `${CONFIG.herName}'s Valentine Adventure`;
+      document.getElementById("gameSubtitle").textContent = `made with love by ${CONFIG.yourName}`;
+
+      elSceneTitle.textContent = scene.title;
+      elSceneText.textContent = (scene.text || "").replace("{HEARTS}", String(hearts));
+
+      elChoices.innerHTML = "";
+      (scene.choices || []).forEach(c => {
+        const btn = document.createElement("button");
+        btn.className = "choice";
+        btn.textContent = c.label;
+        btn.addEventListener("click", () => go(c.to, c.heart || 0));
+        elChoices.appendChild(btn);
+      });
+
+      backBtn.disabled = history.length === 0;
+      backBtn.style.opacity = backBtn.disabled ? 0.5 : 1;
+
+      elHearts.textContent = `❤ ${hearts}`;
+      elProgress.textContent = `scene ${history.length + 1}`;
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    function go(to, addHearts){
+      if(!to) return;
+      history.push({ id: currentId, hearts });
+      hearts += addHearts;
+      currentId = to;
+      render();
+    }
+
+    function back(){
+      const prev = history.pop();
+      if(!prev) return;
+      currentId = prev.id;
+      hearts = prev.hearts;
+      render();
+    }
+
+    function restart(){
+      hearts = 0;
+      currentId = "start";
+      history.length = 0;
+      render();
+    }
+
+    // Secret codes:
+    // RAMENLOVE gives hearts
+    // PORTAPOTTY gives hearts
+    function secret(){
+      const code = prompt("enter secret code");
+      if(!code) return;
+      const cleaned = code.trim().toUpperCase();
+
+      if(cleaned === "RAMENLOVE"){
+        hearts += 5;
+        alert("+5 hearts unlocked ❤\n\nps: ramen dates are undefeated.");
+        render();
+        return;
+      }
+      if(cleaned === "PORTAPOTTY"){
+        hearts += 7;
+        alert("+7 hearts unlocked ❤\n\nlegendary survival bonus.");
+        render();
+        return;
+      }
+
+      alert("nope, but I respect the confidence.");
+    }
+
+    backBtn.addEventListener("click", back);
+    restartBtn.addEventListener("click", restart);
+    secretBtn.addEventListener("click", secret);
+
+    render();
+  </script>
+</body>
+</html>
