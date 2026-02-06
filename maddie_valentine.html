@@ -3,13 +3,15 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Maddie's Valentine Adventure</title>
+  <title>Valentine Quest</title>
   <style>
     :root{
       --bg1:#0b0b10; --bg2:#1a1026;
       --card:rgba(255,255,255,.08); --card2:rgba(255,255,255,.12);
       --text:rgba(255,255,255,.92); --muted:rgba(255,255,255,.72);
-      --accent:#ff4d6d; --accent2:#ff9bd1; --shadow:0 20px 60px rgba(0,0,0,.45);
+      --accent:#ff4d6d; --accent2:#ff9bd1;
+      --good:#4de3a1; --bad:#ff6b6b; --warn:#ffd166;
+      --shadow:0 20px 60px rgba(0,0,0,.45);
       --radius:18px;
     }
     *{box-sizing:border-box}
@@ -23,9 +25,9 @@
         radial-gradient(900px 600px at 80% 30%, #5a1234 0%, transparent 60%),
         linear-gradient(160deg,var(--bg1),var(--bg2));
       display:flex; align-items:center; justify-content:center;
-      padding:18px;
+      padding:16px;
     }
-    .wrap{width:100%; max-width:760px}
+    .wrap{width:100%; max-width:900px}
     .card{
       background:linear-gradient(180deg,var(--card),rgba(255,255,255,.05));
       border:1px solid rgba(255,255,255,.14);
@@ -34,42 +36,51 @@
       overflow:hidden;
     }
     header{
-      padding:18px 18px 0 18px;
-      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 16px 0 16px;
+      display:flex; align-items:flex-start; justify-content:space-between;
       gap:12px; flex-wrap:wrap;
     }
-    .title{display:flex; flex-direction:column; gap:4px}
-    .title h1{margin:0; font-size:clamp(20px,4.5vw,32px); letter-spacing:.2px}
-    .title p{margin:0; color:var(--muted); font-size:clamp(13px,3.2vw,15px)}
-    .pillrow{display:flex; gap:8px; align-items:center; flex-wrap:wrap; justify-content:flex-end}
+    .title{display:flex; flex-direction:column; gap:6px}
+    .title h1{margin:0; font-size:clamp(20px,4.5vw,32px)}
+    .title p{margin:0; color:var(--muted); font-size:clamp(13px,3.2vw,15px); line-height:1.3}
+    .hud{display:flex; gap:8px; flex-wrap:wrap; justify-content:flex-end; align-items:center}
     .pill{
       padding:8px 10px; border-radius:999px;
       background:rgba(255,255,255,.08);
       border:1px solid rgba(255,255,255,.14);
-      font-size:12px; color:var(--muted); user-select:none;
+      font-size:12px; color:var(--muted);
+      user-select:none;
+      white-space:nowrap;
     }
-    main{padding:18px}
+    .pill strong{color:var(--text); font-weight:600}
+    main{padding:16px}
     .scene{
       background:linear-gradient(180deg,var(--card2),rgba(255,255,255,.05));
       border:1px solid rgba(255,255,255,.14);
       border-radius:var(--radius);
       padding:16px;
-      animation:fadeIn 240ms ease-out;
+      animation:fadeIn 220ms ease-out;
     }
+    @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
     .scene h2{margin:0 0 10px 0; font-size:clamp(18px,4.2vw,24px)}
-    .scene .text{
-      margin:0 0 14px 0;
-      color:var(--text);
-      line-height:1.45;
+    .text{
+      margin:0 0 12px 0;
+      line-height:1.55;
       font-size:clamp(15px,3.8vw,18px);
       white-space:pre-wrap;
     }
-    .choices{
-      display:grid;
-      grid-template-columns:1fr;
-      gap:10px;
-      margin-top:14px;
+    .log{
+      margin-top:12px;
+      padding:12px;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.12);
+      background:rgba(0,0,0,.18);
+      color:var(--muted);
+      font-size:14px;
+      line-height:1.45;
+      white-space:pre-wrap;
     }
+    .choices{display:grid; grid-template-columns:1fr; gap:10px; margin-top:12px}
     button.choice{
       width:100%;
       padding:14px 14px;
@@ -86,7 +97,7 @@
     button.choice:active{transform:scale(.99); background:rgba(255,255,255,.12)}
     .row{display:flex; gap:10px; margin-top:14px; flex-wrap:wrap}
     .smallbtn{
-      flex:1; min-width:130px;
+      flex:1; min-width:120px;
       padding:12px 12px;
       border-radius:14px;
       border:1px solid rgba(255,255,255,.18);
@@ -103,8 +114,13 @@
       background:linear-gradient(90deg,var(--accent),var(--accent2));
       border:none;
     }
-    footer{padding:14px 18px 18px 18px; color:var(--muted); font-size:12px}
-    @keyframes fadeIn{from{opacity:0; transform:translateY(6px)} to{opacity:1; transform:translateY(0)}}
+    .danger{
+      color:white;
+      background:linear-gradient(90deg,var(--bad),#ff9aa2);
+      border:none;
+    }
+    footer{padding:12px 16px 16px 16px; color:var(--muted); font-size:12px}
+    .mono{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace}
   </style>
 </head>
 <body>
@@ -112,12 +128,16 @@
     <div class="card">
       <header>
         <div class="title">
-          <h1 id="gameTitle">Maddie's Valentine Adventure</h1>
-          <p id="gameSubtitle">a tiny choose-your-own-adventure</p>
+          <h1 id="gameTitle">Valentine Quest</h1>
+          <p id="gameSubtitle">a longer, fightier, romantic text adventure</p>
         </div>
-        <div class="pillrow">
-          <div class="pill" id="pillProgress">scene 1</div>
-          <div class="pill" id="pillHearts">❤ 0</div>
+        <div class="hud">
+          <div class="pill">hp <strong id="pillHP">?</strong></div>
+          <div class="pill">max <strong id="pillMaxHP">?</strong></div>
+          <div class="pill">hearts <strong id="pillHearts">?</strong></div>
+          <div class="pill">gold <strong id="pillGold">?</strong></div>
+          <div class="pill">scene <strong id="pillScene">?</strong></div>
+          <div class="pill">inv <strong id="pillInv">?</strong></div>
         </div>
       </header>
 
@@ -125,6 +145,7 @@
         <div class="scene">
           <h2 id="sceneTitle"></h2>
           <p class="text" id="sceneText"></p>
+          <div class="log" id="sceneLog" style="display:none"></div>
           <div class="choices" id="choices"></div>
 
           <div class="row">
@@ -135,450 +156,1114 @@
         </div>
       </main>
 
-      <footer id="footerNote">
-        tip: if you ever see a secret code, try the secret button
+      <footer>
+        tip: battles are text-based. death is allowed. if you get wrecked, hit restart and run it back.
       </footer>
     </div>
   </div>
 
   <script>
-    const CONFIG = {
-      herName: "Maddie",
-      yourName: "Hayden"
-    };
+    // Customize names if you want
+    const CONFIG = { herName: "Maddie", yourName: "Hayden" };
 
-    let hearts = 0;
-    let currentId = "start";
-    const history = [];
-    const endings = ["endingA", "endingB", "endingC", "endingD"];
-
-    const scenes = {
-      start: {
-        title: `Hi ${CONFIG.herName} ❤`,
-        text:
-`Welcome to your Valentine adventure.
-
-Rules:
-1) tap choices
-2) collect hearts
-3) no one gets put in an armbar without consent
-
-Ready?`,
-        choices: [
-          { label: "ok yes, let's go", to: "hub", heart: 1 },
-          { label: "wait... is this a trap", to: "trap", heart: 0 }
-        ]
-      },
-
-      trap: {
-        title: "Totally not a trap",
-        text:
-`It is not a trap.
-
-It is a love trap.
-Same thing, but cuter.
-
-Proceed?`,
-        choices: [
-          { label: "proceed", to: "hub", heart: 1 },
-          { label: "only if ramen is involved", to: "ramen", heart: 2 }
-        ]
-      },
-
-      hub: {
-        title: "Pick your route",
-        text:
-`You receive a text from ${CONFIG.yourName}:
-"Valentine mission time."
-
-Choose your vibe:`,
-        choices: [
-          { label: "ramen quest (cozy)", to: "ramen", heart: 2 },
-          { label: "wrestling/BJJ shenanigans (chaos)", to: "bjj", heart: 1 },
-          { label: "the legendary gas station porta potty saga", to: "potty", heart: 1 }
-        ]
-      },
-
-      ramen: {
-        title: "Ramen Quest",
-        text:
-`A warm bowl of ramen appears like magic.
-The steam smells like comfort.
-
-${CONFIG.yourName} says:
-"Pick your toppings and your destiny."`,
-        choices: [
-          { label: "go full cozy date mode", to: "cozy", heart: 2 },
-          { label: "make it a ramen taste-test challenge", to: "challenge", heart: 2 },
-          { label: "take a cute selfie first", to: "selfie", heart: 1 }
-        ]
-      },
-
-      bjj: {
-        title: "Wrestling/BJJ Shenanigans",
-        text:
-`${CONFIG.yourName} walks up with that look.
-You know the one.
-The "I am about to practice a move" look.
-
-You have 3 options.`,
-        choices: [
-          { label: "pretend I am a serious coach and give you a score", to: "coach", heart: 2 },
-          { label: "counter it with pure chaos and laughter", to: "counter", heart: 2 },
-          { label: "negotiate: 'only if I get ramen after'", to: "deal", heart: 2 }
-        ]
-      },
-
-      potty: {
-        title: "The Porta Potty Saga",
-        text:
-`Flashback unlocked.
-
-The urgency was real.
-The stakes were high.
-You yelled:
-"I'm gonna poop in your car!"
-
-And then... a gas station.
-A porta potty.
-Victory.
-
-How do we honor this heroic moment?`,
-        choices: [
-          { label: "laugh until we cry (again)", to: "laugh", heart: 2 },
-          { label: "turn it into a dramatic movie scene", to: "movie", heart: 2 },
-          { label: "make a vow: 'never skip bathroom breaks'", to: "vow", heart: 1 }
-        ]
-      },
-
-      cozy: {
-        title: "Cozy Mode",
-        text:
-`You settle into the coziest possible moment.
-No stress.
-Just you two.
-
-${CONFIG.yourName} slides a tiny envelope across the table.
-It says: "open later."`,
-        choices: [
-          { label: "open it right now", to: "noteNow", heart: 2 },
-          { label: "save it for the perfect moment", to: "noteLater", heart: 2 }
-        ]
-      },
-
-      challenge: {
-        title: "Ramen Challenge",
-        text:
-`You rate each bite with extreme seriousness.
-Like food critics, but way cuter.
-
-${CONFIG.yourName} attempts to be dramatic:
-"This next bite decides your fate."`,
-        choices: [
-          { label: "accept the drama", to: "noteNow", heart: 2 },
-          { label: "no, the ramen decides nothing. I do.", to: "endingB", heart: 3 }
-        ]
-      },
-
-      selfie: {
-        title: "Selfie Moment",
-        text:
-`You take a selfie.
-It is instantly adorable.
-No one can prove otherwise.
-
-A secret message appears on your screen:
-CODE: RAMENLOVE
-
-Maybe that matters later.`,
-        choices: [
-          { label: "continue the adventure", to: "noteLater", heart: 2 }
-        ]
-      },
-
-      coach: {
-        title: "Coach Maddie",
-        text:
-`You allow exactly one move attempt.
-You evaluate like a judge.
-
-Scorecard:
-Technique: suspicious.
-Effort: enthusiastic.
-Vibes: elite.
-
-${CONFIG.yourName} bows respectfully.`,
-        choices: [
-          { label: "award bonus points for being cute", to: "endingA", heart: 3 },
-          { label: "demand ramen as payment", to: "endingB", heart: 2 }
-        ]
-      },
-
-      counter: {
-        title: "Chaos Counter",
-        text:
-`You counter with laughter and a perfectly timed wiggle escape.
-It works.
-Every time.
-
-${CONFIG.yourName} says:
-"How are you like this."`,
-        choices: [
-          { label: "mysteriously vanish into cozy mode", to: "cozy", heart: 2 },
-          { label: "go straight to an ending because I'm powerful", to: "endingC", heart: 2 }
-        ]
-      },
-
-      deal: {
-        title: "The Deal",
-        text:
-`You negotiate like a champion:
-"Fine. Practice your move. But ramen after."
-
-${CONFIG.yourName} agrees immediately.
-Smart choice.`,
-        choices: [
-          { label: "seal it with a high five", to: "endingD", heart: 2 },
-          { label: "seal it with ramen first (priorities)", to: "ramen", heart: 1 }
-        ]
-      },
-
-      laugh: {
-        title: "Laugh Route",
-        text:
-`You laugh so hard you forget the whole world exists for a minute.
-That is the best kind of moment.
-
-${CONFIG.yourName} looks at you like:
-"yep. that's my person."`,
-        choices: [
-          { label: "go to an ending", to: "endingC", heart: 2 },
-          { label: "take the scenic route to an ending", to: "noteLater", heart: 1 }
-        ]
-      },
-
-      movie: {
-        title: "Movie Trailer Voice",
-        text:
-`In a world...
-where bathrooms are NOT optional...
-one woman fights fate itself...
-
-"I'm gonna poop in your car!"
-
-Coming soon: The Porta Potty Chronicles.`,
-        choices: [
-          { label: "this deserves an ending", to: "endingA", heart: 2 },
-          { label: "this deserves ramen", to: "ramen", heart: 1 }
-        ]
-      },
-
-      vow: {
-        title: "The Vow",
-        text:
-`You make a solemn vow:
-We stop when you say you need to stop.
-
-Also, we celebrate small victories.
-Like making it to the porta potty.`,
-        choices: [
-          { label: "continue", to: "noteNow", heart: 2 }
-        ]
-      },
-
-      noteNow: {
-        title: "The Note",
-        text:
-`You open the note.
-
-Inside it says:
-"Choose an ending.
-You will get a sweet message no matter what.
-Because you are you."
-
-Pick one:`,
-        choices: [
-          { label: "Ending A", to: "endingA", heart: 1 },
-          { label: "Ending B", to: "endingB", heart: 1 },
-          { label: "Ending C", to: "endingC", heart: 1 },
-          { label: "Ending D", to: "endingD", heart: 1 }
-        ]
-      },
-
-      noteLater: {
-        title: "Later, Perfectly",
-        text:
-`You save the note for the perfect moment.
-The perfect moment shows up immediately.
-Because of course it does.
-
-Pick an ending:`,
-        choices: [
-          { label: "Ending A", to: "endingA", heart: 1 },
-          { label: "Ending B", to: "endingB", heart: 1 },
-          { label: "Ending C", to: "endingC", heart: 1 },
-          { label: "Ending D", to: "endingD", heart: 1 }
-        ]
-      },
-
-      endingA: {
-        title: "Ending A: Cozy Best Friends",
-        text:
-`Hearts collected: {HEARTS}
-
-Happy Valentine’s Day, Maddie.
+    const LOVE_NOTE =
+`Happy Valentine’s Day.
 
 You are my best friend, and you are the most important thing in the world to me.
 I love you for the big moments, the normal moments, and the ridiculous moments.
-Yes, even the porta potty saga.
 
-I choose you. Always.`,
+I choose you. Always.`;
+
+    // State
+    const state = {
+      hp: 20,
+      maxHp: 20,
+      hearts: 0,
+      gold: 0,
+      sceneCount: 0,
+      history: [],
+      log: [],
+      inv: new Set(),
+      flags: {
+        courage: 0,
+        wit: 0,
+        tenderness: 0,
+        resolve: 0,
+        mercy: 0,
+        chaos: 0,
+        trapSense: 0
+      },
+      battle: null,
+      lastRoll: null
+    };
+
+    // Helpers
+    function clamp(n,a,b){ return Math.max(a, Math.min(b, n)); }
+    function invList(){
+      if(state.inv.size === 0) return "none";
+      const arr = Array.from(state.inv);
+      return arr.slice(0,3).join(", ") + (arr.length > 3 ? "…" : "");
+    }
+    function pushLog(line){
+      state.log.push(line);
+      if(state.log.length > 8) state.log.shift();
+    }
+    function roll(sides){
+      const r = 1 + Math.floor(Math.random() * sides);
+      state.lastRoll = `d${sides}=${r}`;
+      return r;
+    }
+    function heal(n){
+      const before = state.hp;
+      state.hp = clamp(state.hp + n, 0, state.maxHp);
+      pushLog(`heal: +${state.hp - before} hp.`);
+    }
+    function damage(n){
+      const before = state.hp;
+      state.hp = clamp(state.hp - n, 0, state.maxHp);
+      pushLog(`damage: -${before - state.hp} hp.`);
+    }
+    function addItem(item){
+      if(!state.inv.has(item)){
+        state.inv.add(item);
+        pushLog(`item acquired: ${item}`);
+      }
+    }
+
+    // Navigation
+    let currentId = "intro";
+
+    function goto(id){
+      state.history.push(snapshot());
+      currentId = id;
+      state.sceneCount += 1;
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    function snapshot(){
+      return {
+        id: currentId,
+        hp: state.hp,
+        maxHp: state.maxHp,
+        hearts: state.hearts,
+        gold: state.gold,
+        inv: new Set(state.inv),
+        flags: { ...state.flags },
+        log: [...state.log],
+        battle: state.battle ? { ...state.battle } : null,
+        sceneCount: state.sceneCount,
+        lastRoll: state.lastRoll
+      };
+    }
+    function restore(s){
+      currentId = s.id;
+      state.hp = s.hp;
+      state.maxHp = s.maxHp;
+      state.hearts = s.hearts;
+      state.gold = s.gold;
+      state.inv = new Set(s.inv);
+      state.flags = { ...s.flags };
+      state.log = [...s.log];
+      state.battle = s.battle ? { ...s.battle } : null;
+      state.sceneCount = s.sceneCount;
+      state.lastRoll = s.lastRoll;
+    }
+    function back(){
+      const prev = state.history.pop();
+      if(!prev) return;
+      restore(prev);
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+    function restart(){
+      currentId = "intro";
+      state.hp = 14;
+      state.maxHp = 14;
+      state.hearts = 0;
+      state.gold = 0;
+      state.sceneCount = 0;
+      state.history.length = 0;
+      state.log.length = 0;
+      state.inv = new Set();
+      state.flags = { courage:0, wit:0, tenderness:0, resolve:0, mercy:0, chaos:0, trapSense:0 };
+      state.battle = null;
+      state.lastRoll = null;
+      render();
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    // Battle system
+    function startBattle(enemy){
+      state.battle = {
+        name: enemy.name,
+        hp: enemy.hp,
+        maxHp: enemy.hp,
+        atk: enemy.atk,
+        mood: enemy.mood || "hostile",
+        canCharm: !!enemy.canCharm,
+        canBargain: !!enemy.canBargain,
+        reward: enemy.reward || { hearts: 1, gold: 5, item: null },
+        onWinTo: enemy.onWinTo
+      };
+      pushLog(`battle: ${enemy.name} steps in.`);
+    }
+
+    function playerAct(act){
+      const b = state.battle;
+      if(!b) return;
+
+      // player stats from items
+      const hasBlade = state.inv.has("moonblade");
+      const hasShield = state.inv.has("mirror-shield");
+      const hasCharm = state.inv.has("rose-charm");
+      const hasPotion = state.inv.has("potion");
+
+      // Base player power grows slightly with hearts + resolve
+      const power = 1 + Math.floor(state.hearts / 3) + Math.floor(state.flags.resolve / 2);
+
+      if(act === "strike"){
+        const r = roll(20);
+        const hit = r + power + (hasBlade ? 2 : 0);
+        if(r === 1){
+          pushLog("critical miss. you trip dramatically.");
+          damage(2);
+        } else if(r === 20 || hit >= 12){
+          const dmg = (r === 20 ? 6 : 3) + power + (hasBlade ? 1 : 0);
+          b.hp = clamp(b.hp - dmg, 0, 999);
+          pushLog(`strike hits for ${dmg}. (${state.lastRoll})`);
+        } else {
+          pushLog(`strike misses. (${state.lastRoll})`);
+        }
+      }
+
+      if(act === "guard"){
+        const r = roll(20);
+        const block = r + (hasShield ? 2 : 0);
+        state.flags.resolve += 1;
+        if(block >= 12){
+          heal(2);
+          pushLog(`guard holds. you recover. (${state.lastRoll})`);
+        } else {
+          heal(1);
+          pushLog(`guard half-holds. (${state.lastRoll})`);
+        }
+      }
+
+      if(act === "potion"){
+        if(!hasPotion){
+          pushLog("no potion in inventory.");
+        } else {
+          state.inv.delete("potion");
+          heal(7);
+          pushLog("you drink a potion.");
+        }
+      }
+
+      if(act === "charm"){
+        if(!b.canCharm){
+          pushLog("charm fails. it has the emotional range of a rock.");
+          state.flags.chaos += 1;
+        } else {
+          const r = roll(20);
+          const score = r + state.flags.tenderness + (hasCharm ? 3 : 0);
+          if(r === 20 || score >= 15){
+            pushLog(`charm succeeds. the fight dissolves into feelings. (${state.lastRoll})`);
+            b.hp = 0;
+            state.flags.mercy += 1;
+            state.hearts += 1;
+          } else {
+            pushLog(`charm wobbles. awkward silence. (${state.lastRoll})`);
+            state.flags.wit += 1;
+          }
+        }
+      }
+
+      if(act === "bargain"){
+        if(!b.canBargain){
+          pushLog("bargain rejected.");
+          state.flags.chaos += 1;
+        } else {
+          const r = roll(20);
+          const score = r + state.flags.wit + Math.floor(state.gold / 20);
+          if(score >= 14){
+            const pay = Math.min(15, state.gold);
+            state.gold -= pay;
+            pushLog(`deal accepted. you pay ${pay} gold. (${state.lastRoll})`);
+            b.hp = 0;
+            state.flags.mercy += 1;
+          } else {
+            pushLog(`deal refused. (${state.lastRoll})`);
+          }
+        }
+      }
+
+      // Check victory
+      if(b.hp <= 0){
+        winBattle();
+        return;
+      }
+
+      // Enemy turn
+      enemyTurn();
+
+      // Check death
+      if(state.hp <= 0){
+        state.hp = 0;
+        pushLog("you have fallen.");
+        state.battle = null;
+        currentId = "gameOver";
+        render();
+      } else {
+        render();
+      }
+    }
+
+    function enemyTurn(){
+  const b = state.battle;
+  if(!b) return;
+
+  const r = roll(20);
+
+  // Player defense value (acts like armor class)
+  const playerAC = 11 + (state.inv.has("mirror-shield") ? 2 : 0);
+
+  const enemyHit = r + b.atk;
+
+  // Critical miss
+  if(r === 1){
+    pushLog(`${b.name} whiffs horribly. (${state.lastRoll})`);
+    return;
+  }
+
+  // Hit check
+  if(r === 20 || enemyHit >= playerAC){
+
+    let dmg = b.atk + (r >= 18 ? 2 : 0);
+
+    // shield reduces damage slightly
+    if(state.inv.has("mirror-shield"))
+      dmg = Math.max(1, dmg - 1);
+
+    // mood flavor still applies
+    if(b.mood === "relentless") dmg += 1;
+
+    damage(dmg);
+    pushLog(`${b.name} hits for ${dmg}. (${state.lastRoll})`);
+
+  } else {
+
+    pushLog(`${b.name} misses. (${state.lastRoll})`);
+
+  }
+}
+
+    function winBattle(){
+      const b = state.battle;
+      if(!b) return;
+
+      pushLog(`victory over ${b.name}.`);
+
+      // rewards
+      state.hearts += b.reward.hearts || 0;
+      state.gold += b.reward.gold || 0;
+      if(b.reward.item) addItem(b.reward.item);
+
+      // soften difficulty: small heal after fights
+      heal(4);
+
+      const next = b.onWinTo || "chapterHub";
+      state.battle = null;
+      goto(next);
+    }
+
+    // Story structure
+    function pickEnding(){
+      // 4 distinct endings based on choices
+      const f = state.flags;
+      const hasKey = state.inv.has("heart-key");
+      const hasBlade = state.inv.has("moonblade");
+      const hasCharm = state.inv.has("rose-charm");
+
+      // Ending 1: Tender ending (high tenderness + mercy)
+      if(f.tenderness >= 5 && f.mercy >= 3) return "endingTender";
+      // Ending 2: Warrior ending (resolve + blade)
+      if(f.resolve >= 6 && hasBlade) return "endingWarrior";
+      // Ending 3: Trickster ending (wit/chaos + key)
+      if((f.wit + f.chaos) >= 8 && hasKey) return "endingTrickster";
+      // Ending 4: Balanced true ending (has charm + key + decent stats)
+      if(hasCharm && hasKey && f.courage >= 3 && f.resolve >= 3 && f.tenderness >= 3) return "endingTrue";
+
+      // fallback: best matching
+      const scores = [
+        { id:"endingTender", v: f.tenderness + f.mercy },
+        { id:"endingWarrior", v: f.resolve + (hasBlade ? 2 : 0) },
+        { id:"endingTrickster", v: f.wit + f.chaos + (hasKey ? 2 : 0) },
+        { id:"endingTrue", v: f.courage + f.resolve + f.tenderness + (hasCharm ? 2 : 0) + (hasKey ? 1 : 0) }
+      ].sort((a,b)=>b.v-a.v)[0].id;
+
+      return scores;
+    }
+
+    // Scenes
+    const scenes = {
+      intro: {
+        title: "Prologue: The Heartless Winter",
+        text:
+`A quiet kingdom has a problem.
+Love has not vanished, exactly.
+It has been locked away.
+
+An ancient tower called The Vault of Valentine holds the final note of the realm.
+Four seals guard it, each tied to a different kind of love.
+
+You are the chosen adventurer.
+
+Do you accept the quest?`,
         choices: [
-          { label: "play again and find another ending", to: "hub", heart: 0 }
+          { label: "accept the quest", fn: () => { state.flags.courage += 1; pushLog("quest accepted."); goto("choosePath"); } },
+          { label: "accept, but demand payment (fair)", fn: () => { state.flags.wit += 1; state.gold += 10; pushLog("you negotiated 10 gold."); goto("choosePath"); } }
         ]
       },
 
-      endingB: {
-        title: "Ending B: Ramen and Real Love",
+      choosePath: {
+        title: "Chapter 1: The Road of Petals",
         text:
-`Hearts collected: {HEARTS}
+`Three roads lead toward The Vault.
 
-Happy Valentine’s Day, Maddie.
+1) The Rosewood Forest (traps and whispers)
+2) The Moonlit Bridge (duels and oaths)
+3) The Market of Masks (schemes and bargains)
 
-You are my best friend, and you are the most important thing in the world to me.
-I love you more than ramen, which is saying something.
-Thank you for being you, and for letting life be fun with me.
-
-I love you.`,
+Where do you go first?`,
         choices: [
-          { label: "play again and find another ending", to: "hub", heart: 0 }
+          { label: "enter Rosewood Forest", fn: () => { state.flags.trapSense += 1; goto("forestEntry"); } },
+          { label: "cross the Moonlit Bridge", fn: () => { state.flags.resolve += 1; goto("bridgeEntry"); } },
+          { label: "visit the Market of Masks", fn: () => { state.flags.wit += 1; goto("marketEntry"); } }
         ]
       },
 
-      endingC: {
-        title: "Ending C: Laugh-til-it-hurts",
+      // Forest line (more traps)
+      forestEntry: {
+        title: "Rosewood Forest",
         text:
-`Hearts collected: {HEARTS}
+`The trees are pink and black like ink in water.
+Every path is pretty.
+Every pretty thing might be a trap.
 
-Happy Valentine’s Day, Maddie.
-
-You are my best friend, and you are the most important thing in the world to me.
-I love how we can laugh through anything.
-I love your energy, your heart, your humor, and your whole vibe.
-
-I’m so lucky it’s you.`,
+A sign reads:
+"Take only what you can carry. Leave only what you mean."`,
         choices: [
-          { label: "play again and find another ending", to: "hub", heart: 0 }
+          { label: "move carefully (trap check)", fn: () => {
+              const r = roll(20) + state.flags.trapSense;
+              pushLog(`trap check: ${state.lastRoll}`);
+              if(r >= 13){
+                state.flags.trapSense += 1;
+                addItem("heart-key");
+                pushLog("you spot a hidden cache and take a heart-key.");
+                goto("forestFight1");
+              } else {
+                damage(2);
+                state.flags.chaos += 1;
+                pushLog("you step on a thorn sigil. it bites.");
+                goto("forestFight1");
+              }
+            }
+          },
+          { label: "move fast (ignore vibes)", fn: () => { state.flags.chaos += 2; damage(1); goto("forestFight1"); } }
         ]
       },
 
-      endingD: {
-        title: "Ending D: The Chaos Soulmate",
+      forestFight1: {
+        title: "Ambush in the Ferns",
         text:
-`Hearts collected: {HEARTS}
+`A creature stitched from broken promises drops from a branch.
+It smells like old apologies.
 
-Happy Valentine’s Day, Maddie.
-
-You are my best friend, and you are the most important thing in the world to me.
-I love our little life together.
-The sweet parts, the weird parts, the "I’m gonna poop in your car!" parts.
-All of it.
-
-I love you more than you know.`,
+It attacks.`,
         choices: [
-          { label: "play again and find another ending", to: "hub", heart: 0 }
+          { label: "fight", fn: () => { startBattle({
+              name:"Promise-Scamp",
+              hp: 10,
+              atk: 2,
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 1, gold: 6, item: null },
+              onWinTo: "forestShrine"
+            }); goto("battle"); } }
+        ]
+      },
+
+      forestShrine: {
+        title: "Shrine of Soft Courage",
+        text:
+`You find a shrine carved into a fallen tree.
+On it: a small rose-shaped charm.
+
+The shrine asks one question:
+"Will you be gentle even when it is hard?"`,
+        choices: [
+          { label: "yes (gentle)", fn: () => { state.flags.tenderness += 2; state.flags.mercy += 1; addItem("rose-charm"); state.hearts += 1; pushLog("the shrine warms. hearts +1."); goto("forestFight2"); } },
+          { label: "yes (but I will also be fierce)", fn: () => { state.flags.tenderness += 1; state.flags.resolve += 1; addItem("rose-charm"); goto("forestFight2"); } },
+          { label: "no comment (mysterious)", fn: () => { state.flags.wit += 1; goto("forestFight2"); } }
+        ]
+      },
+
+      forestFight2: {
+        title: "The Thorn Knight",
+        text:
+`A knight of living thorns blocks the path.
+It speaks politely.
+
+"Prove you can protect love."`,
+        choices: [
+          { label: "duel the Thorn Knight", fn: () => { startBattle({
+              name:"Thorn Knight",
+              hp: 14,
+              atk: 3,
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 2, gold: 10, item: "potion" },
+              onWinTo: "chapterHub"
+            }); goto("battle"); } }
+        ]
+      },
+
+      // Bridge line (more fights)
+      bridgeEntry: {
+        title: "The Moonlit Bridge",
+        text:
+`The bridge is made of pale stone and old vows.
+A bell hangs at the center.
+A carved line reads:
+
+"Ring the bell only if you mean it."`,
+        choices: [
+          { label: "ring the bell (resolve)", fn: () => { state.flags.resolve += 2; pushLog("the bell rings like a promise."); goto("bridgeFight1"); } },
+          { label: "do not ring it (quiet strength)", fn: () => { state.flags.courage += 1; state.flags.tenderness += 1; goto("bridgeFight1"); } }
+        ]
+      },
+
+      bridgeFight1: {
+        title: "Duel: The Doubt",
+        text:
+`A shadow steps out of the railing.
+It looks like your worst thought on a bad day.
+
+It says:
+"You will fail. You will not be enough."`,
+        choices: [
+          { label: "fight the Doubt", fn: () => { startBattle({
+              name:"The Doubt",
+              hp: 12,
+              atk: 3,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 2, gold: 8, item: null },
+              onWinTo: "bridgeOath"
+            }); goto("battle"); } }
+        ]
+      },
+
+      bridgeOath: {
+        title: "Oathstone",
+        text:
+`At the far end sits an oathstone.
+It offers you a weapon, but it has a price.
+
+Take the Moonblade?
+It grows sharper when you keep your word.`,
+        choices: [
+          { label: "take the Moonblade (fierce)", fn: () => { addItem("moonblade"); state.flags.resolve += 2; state.flags.courage += 1; goto("bridgeFight2"); } },
+          { label: "refuse (I want no shortcuts)", fn: () => { state.flags.tenderness += 2; state.flags.mercy += 1; goto("bridgeFight2"); } }
+        ]
+      },
+
+      bridgeFight2: {
+        title: "Duel: The Cold Prince",
+        text:
+`A polished figure in silver steps forward.
+It calls itself the Cold Prince.
+
+It offers a bargain:
+"Give up tenderness, and I will give you victory."`,
+        choices: [
+          { label: "refuse and fight", fn: () => { state.flags.courage += 2; startBattle({
+              name:"Cold Prince",
+              hp: 16,
+              atk: 4,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 3, gold: 15, item: "mirror-shield" },
+              onWinTo: "chapterHub"
+            }); goto("battle"); } },
+          { label: "pretend to accept, then fight (trick)", fn: () => { state.flags.wit += 2; state.flags.chaos += 1; startBattle({
+              name:"Cold Prince",
+              hp: 16,
+              atk: 4,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 3, gold: 15, item: "mirror-shield" },
+              onWinTo: "chapterHub"
+            }); goto("battle"); } }
+        ]
+      },
+
+      // Market line (schemes + fights)
+      marketEntry: {
+        title: "Market of Masks",
+        text:
+`A market under lanterns.
+Everyone wears a mask.
+Everything has a price.
+
+A vendor whispers:
+"Buy the right thing and you can skip fights."
+Another whispers:
+"Buy the wrong thing and you will meet a regret."`,
+        choices: [
+          { label: "browse the stalls", fn: () => { state.gold += 8; pushLog("you find 8 gold in a dropped pouch."); goto("marketShop"); } },
+          { label: "challenge a pickpocket", fn: () => { goto("marketFight1"); } }
+        ]
+      },
+
+      marketShop: {
+        title: "The Masked Shop",
+        text:
+`You can buy one item if you can afford it.
+
+Current gold: (see hud)
+
+Pick:`,
+        choices: [
+          { label: "buy potion (10 gold)", fn: () => {
+              if(state.gold < 10){ pushLog("not enough gold."); render(); return; }
+              state.gold -= 10; addItem("potion"); state.flags.wit += 1; render();
+            } },
+          { label: "buy rose-charm (14 gold)", fn: () => {
+              if(state.gold < 14){ pushLog("not enough gold."); render(); return; }
+              state.gold -= 14; addItem("rose-charm"); state.flags.tenderness += 2; render();
+            } },
+          { label: "buy heart-key (12 gold)", fn: () => {
+              if(state.gold < 12){ pushLog("not enough gold."); render(); return; }
+              state.gold -= 12; addItem("heart-key"); state.flags.trapSense += 1; render();
+            } },
+          { label: "leave the shop", fn: () => goto("marketFight1") }
+        ]
+      },
+
+      marketFight1: {
+        title: "Fight: The Pickpocket Duo",
+        text:
+`Two masked pickpockets try to bump you and vanish.
+
+They are quick.
+They are smug.
+They are definitely about to catch these consequences.`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"Pickpocket Duo",
+              hp: 11,
+              atk: 2,
+              canCharm: false,
+              canBargain: true,
+              reward: { hearts: 1, gold: 20, item: null },
+              onWinTo: "marketGate"
+            }); goto("battle"); } }
+        ]
+      },
+
+      marketGate: {
+        title: "Gate of False Faces",
+        text:
+`A gate blocks the road to The Vault.
+It has four locks.
+One is real.
+
+A plaque reads:
+"Truth opens what force cannot."`,
+        choices: [
+          { label: "try the heart-key (if you have it)", fn: () => {
+              if(!state.inv.has("heart-key")){
+                pushLog("you do not have a heart-key.");
+                state.flags.chaos += 1;
+                render();
+                return;
+              }
+              state.flags.trapSense += 1;
+              pushLog("the heart-key clicks. one lock was real.");
+              goto("marketFight2");
+            } },
+          { label: "force the gate (bad idea)", fn: () => { state.flags.resolve += 1; damage(2); goto("marketFight2"); } },
+          { label: "solve it by talking to the gate (charm)", fn: () => { state.flags.tenderness += 1; goto("marketFight2"); } }
+        ]
+      },
+
+      marketFight2: {
+        title: "Fight: The Living Mask",
+        text:
+`A mask lifts itself from the gate and floats toward you.
+It speaks in many voices.
+
+"Choose a face. Lose yourself."`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"Living Mask",
+              hp: 15,
+              atk: 3,
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 2, gold: 12, item: "potion" },
+              onWinTo: "chapterHub"
+            }); goto("battle"); } }
+        ]
+      },
+
+      // Hub between chapters
+      chapterHub: {
+        title: "Chapter Hub: Campfire of Small Wins",
+        text:
+`You reach a small camp beneath the stars.
+The Vault of Valentine is closer now.
+
+You can:
+- rest
+- choose the final approach
+- chase one more challenge for more rewards`,
+        choices: [
+          { label: "rest (+5 hp)", fn: () => { heal(5); state.flags.tenderness += 1; goto("finalApproach"); } },
+          { label: "press on (no rest)", fn: () => { state.flags.resolve += 1; goto("finalApproach"); } },
+          { label: "take a side quest for loot (extra fight)", fn: () => { goto("sideQuest"); } }
+        ]
+      },
+
+      sideQuest: {
+        title: "Side Quest: The Ruined Gazebo",
+        text:
+`A ruined gazebo sits in a meadow.
+It feels like a place people once promised things.
+
+A mini-boss waits there.`,
+        choices: [
+          { label: "fight the Warden of Apologies", fn: () => { startBattle({
+              name:"Warden of Apologies",
+              hp: 18,
+              atk: 4,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 3, gold: 18, item: "potion" },
+              onWinTo: "chapterHub"
+            }); goto("battle"); } },
+          { label: "back to camp", fn: () => goto("chapterHub") }
+        ]
+      },
+
+      finalApproach: {
+        title: "Chapter 2: The Vault of Valentine",
+        text:
+`The Vault stands ahead, carved into a cliff.
+Four seals glow on its door.
+
+To open the Vault, you must defeat its guardians.
+
+Choose your approach:`,
+        choices: [
+          { label: "front gate (hard fights, direct)", fn: () => { state.flags.resolve += 1; goto("vaultGate"); } },
+          { label: "side passage (more traps)", fn: () => { state.flags.trapSense += 1; goto("vaultSide"); } },
+          { label: "lower tunnels (bargains and weirdness)", fn: () => { state.flags.wit += 1; goto("vaultTunnels"); } }
+        ]
+      },
+
+      vaultGate: {
+        title: "Vault Gate: Guardian of Distance",
+        text:
+`A tall guardian blocks the door.
+It feels like emotional distance made solid.
+
+It raises a hand. The air turns cold.`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"Guardian of Distance",
+              hp: 20,
+              atk: 4,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 3, gold: 20, item: null },
+              onWinTo: "vaultSeal2"
+            }); goto("battle"); } }
+        ]
+      },
+
+      vaultSide: {
+        title: "Side Passage: Trap Hall",
+        text:
+`The side passage is narrow and pretty and dangerous.
+Three runes on the floor.
+
+You can attempt a trap roll, or brute force through.`,
+        choices: [
+          { label: "trap roll (d20)", fn: () => {
+              const r = roll(20) + state.flags.trapSense + (state.inv.has("heart-key") ? 1 : 0);
+              pushLog(`trap roll: ${state.lastRoll}`);
+              if(r >= 14){
+                state.flags.trapSense += 1;
+                state.hearts += 1;
+                pushLog("you glide through the traps. hearts +1.");
+                goto("vaultSeal2");
+              } else {
+                damage(4);
+                pushLog("a rune snaps. it hurts. a lot.");
+                if(state.hp <= 0){ currentId="gameOver"; render(); return; }
+                goto("vaultSeal2");
+              }
+            }
+          },
+          { label: "brute force through (-3 hp)", fn: () => { damage(3); if(state.hp<=0){ currentId="gameOver"; render(); return; } goto("vaultSeal2"); } }
+        ]
+      },
+
+      vaultTunnels: {
+        title: "Lower Tunnels: The Bargainer",
+        text:
+`A creature made of contracts and sighs offers a deal:
+"I can open one seal for a price."`,
+        choices: [
+          { label: "pay 25 gold to open a seal", fn: () => {
+              if(state.gold < 25){ pushLog("not enough gold."); render(); return; }
+              state.gold -= 25;
+              state.hearts += 1;
+              state.flags.mercy += 1;
+              pushLog("a seal opens in the distance. hearts +1.");
+              goto("vaultSeal2");
+            } },
+          { label: "refuse and fight it instead", fn: () => { startBattle({
+              name:"The Bargainer",
+              hp: 17,
+              atk: 4,
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 2, gold: 30, item: "potion" },
+              onWinTo: "vaultSeal2"
+            }); goto("battle"); } }
+        ]
+      },
+
+      vaultSeal2: {
+        title: "Seal Two: Guardian of Miscommunication",
+        text:
+`A guardian speaks in half-sentences and assumptions.
+It turns simple words into weapons.
+
+It attacks.`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"Guardian of Miscommunication",
+              hp: 19,
+              atk: 4,
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 3, gold: 16, item: null },
+              onWinTo: "vaultSeal3"
+            }); goto("battle"); } }
+        ]
+      },
+
+      vaultSeal3: {
+        title: "Seal Three: The Spiral of Doubt (boss fight)",
+        text:
+`The third seal is guarded by a living spiral.
+It pulls you into looping worries.
+
+It whispers:
+"What if you are too much?
+What if you are not enough?"`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"Spiral of Doubt",
+              hp: 24,
+              atk: 5,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: false,
+              reward: { hearts: 4, gold: 24, item: "potion" },
+              onWinTo: "vaultSeal4"
+            }); goto("battle"); } }
+        ]
+      },
+
+      vaultSeal4: {
+        title: "Seal Four: The Final Guardian",
+        text:
+`The last guardian does not look like a monster.
+It looks like a closed door after a long day.
+
+It says:
+"Prove you will return. Prove you will choose."`,
+        choices: [
+          { label: "fight", fn: () => { startBattle({
+              name:"The Closed Door",
+              hp: 26,
+              atk: 5,
+              mood: "relentless",
+              canCharm: true,
+              canBargain: true,
+              reward: { hearts: 5, gold: 30, item: null },
+              onWinTo: "vaultOpen"
+            }); goto("battle"); } }
+        ]
+      },
+
+      vaultOpen: {
+        title: "The Vault Opens",
+        text:
+`All four seals dim.
+The door unlocks with a soft sound.
+
+Inside is not treasure.
+Inside is a quiet room.
+
+A final pedestal holds a note.
+
+The room asks one last question:
+"What ending did your choices create?"`,
+        choices: [
+          { label: "step forward", fn: () => { goto(pickEnding()); } }
+        ]
+      },
+
+      // Endings (distinct vibes)
+      endingTender: {
+        title: "Ending: The Gentle Lantern",
+        text:
+`You choose softness as strength.
+
+The room fills with warm lantern light.
+Every fight and trap feels smaller now, like it was only ever a test of patience.
+
+A simple truth settles in:
+tenderness is not fragile.
+It is brave.
+
+The note appears.
+
+${LOVE_NOTE}`,
+        choices: [
+          { label: "play again", fn: () => restart() }
+        ]
+      },
+
+      endingWarrior: {
+        title: "Ending: The Moonblade Oath",
+        text:
+`You choose resolve as devotion.
+
+The Moonblade hums in your hand.
+Not for war, but for protection.
+Not to dominate, but to stand between love and the cold parts of the world.
+
+The Vault recognizes a promise kept.
+
+The note appears.
+
+${LOVE_NOTE}`,
+        choices: [
+          { label: "play again", fn: () => restart() }
+        ]
+      },
+
+      endingTrickster: {
+        title: "Ending: The Key Through the Side Door",
+        text:
+`You choose wit, timing, and a little chaos.
+
+Where others pushed, you listened.
+Where others fought, you angled.
+Where others assumed, you checked.
+
+The Vault opens a hidden side door you did not notice before.
+It feels like laughing at the right moment.
+
+The note appears.
+
+${LOVE_NOTE}`,
+        choices: [
+          { label: "play again", fn: () => restart() }
+        ]
+      },
+
+      endingTrue: {
+        title: "Ending: The Quiet True Ending",
+        text:
+`You choose all of it:
+courage, resolve, wit, tenderness.
+
+The Vault’s room becomes still.
+Not empty, just calm.
+Like the world exhaling.
+
+The note is not a prize.
+It is a reminder:
+the best ending is choosing each other again and again.
+
+The note appears.
+
+${LOVE_NOTE}`,
+        choices: [
+          { label: "play again", fn: () => restart() }
+        ]
+      },
+
+      // Battle scene
+      battle: {
+        title: "Battle",
+        text: () => {
+          const b = state.battle;
+          if(!b) return "no battle active.";
+          const inv = Array.from(state.inv).join(", ") || "none";
+          const rollTxt = state.lastRoll ? `last roll: ${state.lastRoll}\n\n` : "";
+          return `${rollTxt}enemy: ${b.name}\nenemy hp: ${b.hp}/${b.maxHp}\n\nchoose your action:`;
+        },
+        log: true,
+        choices: () => {
+          const b = state.battle;
+          if(!b) return [{ label:"continue", fn: () => goto("chapterHub") }];
+
+          const arr = [
+            { label:"strike (attack)", fn: () => playerAct("strike") },
+            { label:"guard (heal a bit)", fn: () => playerAct("guard") },
+            { label:"potion (if you have one)", fn: () => playerAct("potion") }
+          ];
+          if(b.canCharm) arr.push({ label:"charm (romance move)", fn: () => playerAct("charm") });
+          if(b.canBargain) arr.push({ label:"bargain (spend gold)", fn: () => playerAct("bargain") });
+          return arr;
+        }
+      },
+
+      gameOver: {
+        title: "Game Over",
+        text:
+`you died.
+
+this is allowed.
+this is also hilarious in a dramatic fantasy way.
+
+hit restart to try again.`,
+        log: true,
+        choices: [
+          { label: "restart (new run)", fn: () => restart() }
         ]
       }
     };
 
-    const elSceneTitle = document.getElementById("sceneTitle");
-    const elSceneText = document.getElementById("sceneText");
-    const elChoices = document.getElementById("choices");
-    const elProgress = document.getElementById("pillProgress");
-    const elHearts = document.getElementById("pillHearts");
-    const backBtn = document.getElementById("backBtn");
-    const restartBtn = document.getElementById("restartBtn");
-    const secretBtn = document.getElementById("secretBtn");
-
-    function render(){
-      const scene = scenes[currentId];
-      if(!scene) return;
-
-      document.getElementById("gameTitle").textContent = `${CONFIG.herName}'s Valentine Adventure`;
-      document.getElementById("gameSubtitle").textContent = `made with love by ${CONFIG.yourName}`;
-
-      elSceneTitle.textContent = scene.title;
-      elSceneText.textContent = (scene.text || "").replace("{HEARTS}", String(hearts));
-
-      elChoices.innerHTML = "";
-      (scene.choices || []).forEach(c => {
-        const btn = document.createElement("button");
-        btn.className = "choice";
-        btn.textContent = c.label;
-        btn.addEventListener("click", () => go(c.to, c.heart || 0));
-        elChoices.appendChild(btn);
-      });
-
-      backBtn.disabled = history.length === 0;
-      backBtn.style.opacity = backBtn.disabled ? 0.5 : 1;
-
-      elHearts.textContent = `❤ ${hearts}`;
-      elProgress.textContent = `scene ${history.length + 1}`;
-      window.scrollTo({ top: 0, behavior: "smooth" });
-    }
-
-    function go(to, addHearts){
-      if(!to) return;
-      history.push({ id: currentId, hearts });
-      hearts += addHearts;
-      currentId = to;
-      render();
-    }
-
-    function back(){
-      const prev = history.pop();
-      if(!prev) return;
-      currentId = prev.id;
-      hearts = prev.hearts;
-      render();
-    }
-
-    function restart(){
-      hearts = 0;
-      currentId = "start";
-      history.length = 0;
-      render();
-    }
-
-    // Secret codes:
-    // RAMENLOVE gives hearts
-    // PORTAPOTTY gives hearts
+    // Secret codes
     function secret(){
       const code = prompt("enter secret code");
       if(!code) return;
-      const cleaned = code.trim().toUpperCase();
+      const c = code.trim().toUpperCase();
 
-      if(cleaned === "RAMENLOVE"){
-        hearts += 5;
-        alert("+5 hearts unlocked ❤\n\nps: ramen dates are undefeated.");
+      if(c === "POTION"){
+        addItem("potion");
         render();
         return;
       }
-      if(cleaned === "PORTAPOTTY"){
-        hearts += 7;
-        alert("+7 hearts unlocked ❤\n\nlegendary survival bonus.");
+      if(c === "ROSE"){
+        addItem("rose-charm");
+        state.flags.tenderness += 2;
+        pushLog("secret: rose-charm granted.");
+        render();
+        return;
+      }
+      if(c === "KEY"){
+        addItem("heart-key");
+        state.flags.trapSense += 2;
+        pushLog("secret: heart-key granted.");
+        render();
+        return;
+      }
+      if(c === "GOLD"){
+        state.gold += 50;
+        pushLog("secret: +50 gold.");
         render();
         return;
       }
 
-      alert("nope, but I respect the confidence.");
+      alert("nope. but points for confidence.");
     }
 
-    backBtn.addEventListener("click", back);
-    restartBtn.addEventListener("click", restart);
-    secretBtn.addEventListener("click", secret);
+    // Render (boot-safe)
+    function boot(){
+      try{
+        const elTitle = document.getElementById("sceneTitle");
+        const elText = document.getElementById("sceneText");
+        const elChoices = document.getElementById("choices");
+        const elLog = document.getElementById("sceneLog");
 
-    render();
+        const pillHP = document.getElementById("pillHP");
+        const pillMaxHP = document.getElementById("pillMaxHP");
+        const pillHearts = document.getElementById("pillHearts");
+        const pillGold = document.getElementById("pillGold");
+        const pillScene = document.getElementById("pillScene");
+        const pillInv = document.getElementById("pillInv");
+
+        const backBtn = document.getElementById("backBtn");
+        const restartBtn = document.getElementById("restartBtn");
+        const secretBtn = document.getElementById("secretBtn");
+
+        window.render = function render(){
+          const scene = scenes[currentId];
+          if(!scene) return;
+
+          document.getElementById("gameTitle").textContent = "Valentine Quest";
+          document.getElementById("gameSubtitle").textContent = `a romantic adventure by ${CONFIG.yourName}`;
+
+          pillHP.textContent = String(state.hp);
+          pillMaxHP.textContent = String(state.maxHp);
+          pillHearts.textContent = String(state.hearts);
+          pillGold.textContent = String(state.gold);
+          pillScene.textContent = String(state.sceneCount + 1);
+          pillInv.textContent = invList();
+
+          elTitle.textContent = scene.title;
+
+          const text = (typeof scene.text === "function" ? scene.text() : (scene.text || ""));
+          elText.textContent = text;
+
+          const showLog = !!scene.log || state.log.length > 0;
+          elLog.style.display = showLog ? "block" : "none";
+          if(showLog) elLog.textContent = state.log.join("\n");
+
+          const choiceDefs = (typeof scene.choices === "function" ? scene.choices() : (scene.choices || []));
+          elChoices.innerHTML = "";
+
+          choiceDefs.forEach(c => {
+            const btn = document.createElement("button");
+            btn.className = "choice";
+            btn.textContent = c.label;
+            btn.addEventListener("click", () => c.fn && c.fn());
+            elChoices.appendChild(btn);
+          });
+
+          backBtn.disabled = state.history.length === 0;
+          backBtn.style.opacity = backBtn.disabled ? 0.5 : 1;
+        };
+
+        backBtn.onclick = back;
+        restartBtn.onclick = restart;
+        secretBtn.onclick = secret;
+
+        render();
+      } catch(e){
+        const msg = (e && e.stack) ? e.stack : String(e);
+        const t = document.getElementById("sceneText");
+        if(t) t.textContent = "Load error:\n\n" + msg;
+      }
+    }
+
+    window.addEventListener("DOMContentLoaded", boot);
   </script>
 </body>
 </html>
